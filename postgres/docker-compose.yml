@@ -1,0 +1,15 @@
+services:
+  database:
+    image: postgres:18-alpine
+    container_name: sctec-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: sctec
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/18/data
+
+volumes:
+  pgdata:
