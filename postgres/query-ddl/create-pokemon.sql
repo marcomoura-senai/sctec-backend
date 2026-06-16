@@ -19,6 +19,7 @@ CREATE TABLE tipos(
 CREATE TABLE pokemon_tipos (
     tipo_id INT NOT NULL REFERENCES tipos(id),
     pokemon_id INT NOT NULL REFERENCES pokemon(id),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
     
     CONSTRAINT pk_pokemon_tipos PRIMARY KEY (tipo_id, pokemon_id)
 )
