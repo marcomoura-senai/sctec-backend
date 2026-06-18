@@ -25,7 +25,7 @@ CREATE TABLE categoria (
 
 CREATE TABLE usuario (
     id    INTEGER      GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    login VARCHAR(100) NOT NULL UNIQUE,
+    login VARCHAR(100) NOT NULL UNIQUE, -- UNIQUE CRIA ÍNDICE SOZINHO
     senha VARCHAR(255) NOT NULL,
     cpf   VARCHAR(11)  NOT NULL UNIQUE
 );
@@ -38,7 +38,7 @@ CREATE TABLE produto (
     id           INTEGER       GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     categoria_id INTEGER       NOT NULL
                      REFERENCES categoria(id) ON DELETE RESTRICT,
-    name         VARCHAR(255)  NOT NULL,
+    name         VARCHAR(255)  NOT NULL, -- Candidato a índice de fuzzy scan
     descricao    TEXT,
     preco_base   NUMERIC(10,2) NOT NULL CHECK (preco_base >= 0)
 );
@@ -62,7 +62,7 @@ CREATE TABLE endereco (
 
 CREATE TABLE pedido (
     id         INTEGER      GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    usuario_id INTEGER      NOT NULL
+    usuario_id INTEGER      NOT NULL -- FK
                    REFERENCES usuario(id) ON DELETE RESTRICT,
     data       DATE         NOT NULL DEFAULT CURRENT_DATE,
     status     VARCHAR(20)  NOT NULL DEFAULT 'pendente'
@@ -94,5 +94,5 @@ CREATE TABLE pagamento (
     status         VARCHAR(20)  NOT NULL DEFAULT 'pendente'
                        CHECK (status IN ('pendente', 'confirmado', 'cancelado', 'reembolsado')),
     updated_at     DATE,
-    transaction_id VARCHAR(100)
+    transaction_id VARCHAR(100) -- ÍNDICE
 );
