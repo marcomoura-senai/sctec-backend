@@ -29,6 +29,7 @@
     "typescript-eslint": "^8.59.4"
   },
   "dependencies": {
+    "dotenv": "^17.4.2",
     "pg": "^8.22.0"
   }
 }

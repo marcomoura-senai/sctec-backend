@@ -1,4 +1,4 @@
-import { Pool } from "pg";
+import "dotenv/config";
 import { initDatabase, pool } from "./database";
 import { defer } from "./defer";
 
