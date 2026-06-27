@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "tsx scripts/seed-generation.ts",
-    "seed:sql": "tsx scripts/seed-sql-generation.ts"
+    "seed:sql": "tsx scripts/seed-sql-generation.ts",
+    "start:dev": "tsc && tsx src/main.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@types/node": "^25.9.1",
+    "@types/pg": "^8.20.0",
     "@typescript-eslint/eslint-plugin": "^8.59.4",
     "@typescript-eslint/parser": "^8.59.4",
     "eslint": "^9.39.4",
@@ -25,5 +27,8 @@
     "tsx": "^4.22.3",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.4"
+  },
+  "dependencies": {
+    "pg": "^8.22.0"
   }
 }
