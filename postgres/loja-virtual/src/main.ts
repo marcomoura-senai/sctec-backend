@@ -1,19 +1,12 @@
 import "dotenv/config";
-import { initDatabase, pool } from "./database";
+import { initDatabase, pool } from "./infra/database/database";
 import { defer } from "./defer";
+import { Pedido } from "./domain/pedido";
+import { LoginUseCase } from "./use-case/login.usecase";
+import { UsuarioPostgresRepository } from "./infra/repositories/usuario/adapters/usuario-postgres.repository";
+import { EmailAwsService } from "./infra/email/adapters/email-aws.service";
 
-interface Pedido {
-  id: number;
-  usuario_id: number;
-  data: Date;
-  status: string;
-  logradouro: string;
-  cep: string;
-  bairro: string;
-  uf: string;
-  cidade: string | null;
-  estado: string | null;
-}
+
 
 async function getPedidos(): Promise<Pedido[]> {
   const poolConnection = await pool.connect();
@@ -48,11 +41,23 @@ async function getProdutos() {
 async function main() {
   await initDatabase();
 
+  const emailService = new EmailAwsService();
+
+  const loginUseCase = new LoginUseCase(new UsuarioPostgresRepository(pool), emailService);
+
   const pedidos = await getPedidos();
 
   const produtos = await getProdutos();
 
   console.log(produtos);
+
+  // HTTP
+  // const UserController = new UserController(loginUseCase);
+  // View -> MVC
+  
+  // const loginView = new LoginView(loginUseCase);
+
+  // await loginView.start();
 }
 
 main().catch(console.error);
