@@ -1,3 +1,5 @@
+import { ItemPedido } from "./itemPedido";
+
 export type StatusPedido = "pendente" | "entregue" | "cancelado";
 
 export interface Pedido {
@@ -11,4 +13,5 @@ export interface Pedido {
     cidade: string;
     estado: string;
     logradouro: string;
+    itemPedido: ItemPedido[]
 }

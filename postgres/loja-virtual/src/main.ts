@@ -1,31 +1,15 @@
 import "dotenv/config";
 import { initDatabase, pool } from "./infra/database/database";
 import { defer } from "./defer";
-import { Pedido } from "./domain/pedido";
 import { LoginUseCase } from "./use-case/login.usecase";
 import { UsuarioPostgresRepository } from "./infra/repositories/usuario/adapters/usuario-postgres.repository";
 import { EmailAwsService } from "./infra/email/adapters/email-aws.service";
+import { FindUserUseCase } from "./use-case/find-user.uc";
+import { PedidoPostgresRepository } from "./infra/repositories/pedido/adapters/pedido-postgres.repository";
+import { FindUserOrdersUseCase } from "./use-case/find-user-orders.uc";
 
 
 
-async function getPedidos(): Promise<Pedido[]> {
-  const poolConnection = await pool.connect();
-
-  poolConnection.query("BEGIN");
-
-  try {
-    const result = await poolConnection.query<Pedido>("SELECT * FROM pedido");
-
-    poolConnection.query("COMMIT");
-
-    return result.rows;
-  } catch (error) {
-    poolConnection.query("ROLLBACK");
-    throw error;
-  } finally {
-    poolConnection.release();
-  }
-}
 
 async function getProdutos() {
   const poolConnection = await pool.connect();
@@ -45,19 +29,23 @@ async function main() {
 
   const loginUseCase = new LoginUseCase(new UsuarioPostgresRepository(pool), emailService);
 
-  const pedidos = await getPedidos();
+  const findUserUseCase = new FindUserUseCase(new UsuarioPostgresRepository(pool));
+  const findUserOrdersUseCase = new FindUserOrdersUseCase(new PedidoPostgresRepository(pool));
 
-  const produtos = await getProdutos();
 
-  console.log(produtos);
+  // const produtos = await getProdutos();
 
-  // HTTP
-  // const UserController = new UserController(loginUseCase);
-  // View -> MVC
-  
-  // const loginView = new LoginView(loginUseCase);
+  await loginUseCase.execute('123456', '123456').catch(console.error);
 
-  // await loginView.start();
+  const USER_ID = 4;
+  const user = await findUserUseCase.execute(USER_ID)
+  console.log('USER: ', user);
+
+
+  const orders = await findUserOrdersUseCase.execute(USER_ID)
+  console.log('ORDERS: ', JSON.stringify(orders, null, 2));
+
+
 }
 
 main().catch(console.error);

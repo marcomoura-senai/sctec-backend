@@ -7,7 +7,7 @@ export interface Usuario {
     nome: string;
     email: string;
     cpf: string;
-    endereco?: Endereco
+    endereco?: Endereco[]
     password: string;
 }
 
