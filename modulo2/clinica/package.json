@@ -1,13 +1,13 @@
 {
-  "name": "loja-virtual",
+  "name": "aula29_05",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "tsx scripts/seed-generation.ts",
-    "seed:sql": "tsx scripts/seed-sql-generation.ts",
-    "start:dev": "tsc && tsx src/main.ts",
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "dev": "tsc && tsx watch src/main.ts",
     "lint": "eslint src"
   },
   "keywords": [],
@@ -15,6 +15,7 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^25.9.1",
     "@types/pg": "^8.20.0",
     "@typescript-eslint/eslint-plugin": "^8.59.4",
@@ -30,7 +31,7 @@
     "typescript-eslint": "^8.59.4"
   },
   "dependencies": {
-    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
     "pg": "^8.22.0"
   }
 }

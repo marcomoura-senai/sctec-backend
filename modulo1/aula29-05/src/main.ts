@@ -2,12 +2,16 @@
 // prettier
 // editorconfig -> LF\ CRLF || 2 || 4 ||
 
-function main() {
+import { initDatabase } from './database';
+
+async function main() {
   const a = '';
   const b = '';
+
+  await initDatabase();
 
   console.log(a);
   console.log(b);
 }
 
-main();
+main().catch(console.error);

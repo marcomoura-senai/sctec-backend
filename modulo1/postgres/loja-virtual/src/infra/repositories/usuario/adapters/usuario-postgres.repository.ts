@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import { Usuario, UsuarioWithPedidos } from "../../../../domain/usuario";
-import { UsuarioRepository } from "../usuario.repository";
+import { UsuarioRepository } from "../../pedido/usuario.repository";
 
 export class UsuarioPostgresRepository implements UsuarioRepository {
 

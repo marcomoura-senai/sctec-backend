@@ -1,5 +1,5 @@
 import { EmailService } from "../infra/email/email.service";
-import { UsuarioRepository } from "../infra/repositories/usuario/usuario.repository";
+import { UsuarioRepository } from "../infra/repositories/pedido/usuario.repository";
 
 export class LoginUseCase {
     constructor(private readonly repository: UsuarioRepository, private readonly emailService: EmailService) {}

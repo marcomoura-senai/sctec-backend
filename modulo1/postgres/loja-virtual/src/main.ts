@@ -10,7 +10,6 @@ import { FindUserOrdersUseCase } from "./use-case/find-user-orders.uc";
 
 
 
-
 async function getProdutos() {
   const poolConnection = await pool.connect();
 
