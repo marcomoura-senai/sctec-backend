@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start": "node dist/main.js",
-    "dev": "tsc && tsx watch src/main.ts",
+    "dev": "concurrently -k -p \"[{name}]\" -c \"blue.bold,magenta.bold\" \"npm:dev:tsc\" \"npm:dev:tsx\"",
+    "dev:tsc": "tsc --watch --noEmit --preserveWatchOutput",
+    "dev:tsx": "tsx watch src/main.ts",
     "lint": "eslint src"
   },
   "keywords": [],
@@ -20,6 +22,7 @@
     "@types/pg": "^8.20.0",
     "@typescript-eslint/eslint-plugin": "^8.59.4",
     "@typescript-eslint/parser": "^8.59.4",
+    "concurrently": "^10.0.4",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",

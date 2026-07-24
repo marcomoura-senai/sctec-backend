@@ -12,7 +12,7 @@ const config = defineConfig(
     languageOptions: {
       parserOptions: {
         projectService: {
-          allowDefaultProject: ['*.js']
+          allowDefaultProject: ['*.js', '*.mjs']
         },
         tsconfigRootDir: import.meta.dirname,
       },
