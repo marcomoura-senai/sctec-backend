@@ -3,17 +3,16 @@ import { Router } from 'express';
 import {
   createAuthor,
   deleteAuthor,
-  getAuthors,
+  getAuthor,
+  listAuthors,
   updateAuthor,
 } from '../controller/authors.controller';
 
 export const authorsRouter = Router();
 
-authorsRouter.get('/', getAuthors);
+authorsRouter.get('/', listAuthors);
 
-authorsRouter.get('/:id', (req, res) => {
-  res.send('authors/:id');
-});
+authorsRouter.get('/:id', getAuthor);
 
 authorsRouter.post('/', createAuthor);
 

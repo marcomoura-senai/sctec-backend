@@ -10,20 +10,8 @@ export const rootRouter = express.Router();
 //   next();
 // };
 
-/**
- * localhost:3000/
-  authors/
-    criar -> localhost:3000/autor/criar
-    listar
-    atualizar
-    deletar
-    /:id -> e.g localhost:3000/authors/20
-      /books -> e.g localhost:3000/authors/20/books
-  books/
-    POST - criar
-    GET - Listar
-    PUT - Atualizar
-    DELETE- Deletar
- */
+// Path variable -> :id
+// Query parameter -> ?nome=joao&idade=25
 
+// localhost:3000/v1/authors?nome=joao&idade=25
 rootRouter.use('/authors', authorsRouter);

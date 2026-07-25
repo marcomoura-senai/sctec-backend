@@ -12,7 +12,7 @@ const config = defineConfig(
     languageOptions: {
       parserOptions: {
         projectService: {
-          allowDefaultProject: ['*.js', '*.mjs']
+          allowDefaultProject: ['*.js', '*.mjs'],
         },
         tsconfigRootDir: import.meta.dirname,
       },
@@ -35,6 +35,7 @@ const config = defineConfig(
       },
     },
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     rules: {
       ...prettierPlugin.configs.recommended.rules,
       ...eslintPluginImport.configs.recommended.rules,

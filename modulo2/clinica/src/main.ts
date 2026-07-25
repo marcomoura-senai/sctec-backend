@@ -2,10 +2,10 @@ import express from 'express';
 
 import { rootRouter } from './routers/index.router';
 
-// <PROTOCOLO><HOST>:<PORT>/<CAMINHO>
+// <PROTOCOLO><HOST/IP>:<PORT>/<CAMINHO>
 // http://localhost:3000/v1/
 // http://localhost:3000/b
-// http://localhost:3000/c
+// http://localhost:3000/c <- URL/ URI (Unique Resource Identifier -> Identificador Único de Recurso)
 function main() {
   const app = express();
 
