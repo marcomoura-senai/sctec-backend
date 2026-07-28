@@ -2,7 +2,6 @@ import { Router } from 'express';
 
 import {
   createAuthor,
-  deleteAuthor,
   getAuthor,
   listAuthors,
   updateAuthor,
@@ -17,5 +16,3 @@ authorsRouter.get('/:id', getAuthor);
 authorsRouter.post('/', createAuthor);
 
 authorsRouter.put('/:id', updateAuthor);
-
-authorsRouter.delete('/:id', deleteAuthor);

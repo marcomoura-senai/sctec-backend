@@ -1,52 +1,137 @@
 import type { Request, Response } from 'express';
 
+import * as authorService from '../service/author.service';
+
 export function listAuthors(req: Request, res: Response) {
   const { nome } = req.query;
 
-  console.log('Query params:', req.query);
+  if (nome && typeof nome !== 'string') {
+    return res.status(400).json({
+      message: 'query param "nome" must be a string',
+    });
+  }
 
-  // TODO: Implementar service de busca no banco
+  const authors = authorService.listAuthors({ name: nome });
 
-  res.json([
-    {
-      id: 1,
-      nome: nome,
-    },
-  ]);
+  res.json(authors);
 }
 
 export function getAuthor(req: Request, res: Response) {
   const { id } = req.params;
 
   if (!id) {
-    throw new Error('Id is required');
+    return res.status(400).json({
+      message: 'Id is required',
+    });
   }
 
   if (Number.isNaN(Number(id))) {
-    throw new Error('Id must be a number');
+    return res.status(400).json({
+      message: 'Id must be a number',
+    });
   }
 
-  console.log('Params:', req.params);
-  res.json({
-    id,
-    nome: 'João Moura',
-  });
+  const author = authorService.getAuthor(Number(id));
+
+  if (!author) {
+    return res.status(404).json({
+      message: 'Author not found',
+    });
+  }
+
+  res.json(author);
 }
 
 export function createAuthor(req: Request, res: Response) {
   const body: unknown = req.body;
 
-  console.log('Body:', body);
-  res.json({
+  if (!body) {
+    return res.status(400).json({
+      message: 'Body is required',
+    });
+  }
+
+  if (typeof body !== 'object') {
+    return res.status(400).json({
+      message: 'Body must be an object',
+    });
+  }
+
+  if (!('nome' in body) || typeof body.nome !== 'string') {
+    return res.status(400).json({
+      message: 'property "nome" is required and must be a string',
+    });
+  }
+
+  if (!('idade' in body) || typeof body.idade !== 'number') {
+    return res.status(400).json({
+      message: 'property "idade" is required and must be a number',
+    });
+  }
+
+  const author = authorService.createAuthor(body.nome, body.idade);
+
+  res.status(201).json({
     message: 'Author created successfully',
-    data: body,
+    data: author,
   });
 }
 
 export function updateAuthor(req: Request, res: Response) {
-  throw new Error('Not implemented');
-}
+  const body: unknown = req.body;
+  const { id } = req.params;
 
-export function deleteAuthor(req: Request, res: Response) {
-  throw new Error('Not implemented');
+  if (!id) {
+    return res.status(400).json({
+      message: 'Id is required',
+    });
+  }
+
+  if (Number.isNaN(Number(id))) {
+    return res.status(400).json({
+      message: 'Id must be a number',
+    });
+  }
+
+  if (!body) {
+    return res.status(400).json({
+      message: 'Body is required',
+    });
+  }
+
+  if (typeof body !== 'object') {
+    return res.status(400).json({
+      message: 'Body must be an object',
+    });
+  }
+
+  if ('nome' in body && typeof body.nome !== 'string') {
+    return res.status(400).json({
+      message: 'property "nome" must be a string',
+    });
+  }
+
+  if ('idade' in body && typeof body.idade !== 'number') {
+    return res.status(400).json({
+      message: 'property "idade" must be a number',
+    });
+  }
+
+  try {
+    const author = authorService.updateAuthor(Number(id), body);
+
+    res.status(201).json({
+      message: 'Author updated successfully',
+      data: author,
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.message === 'Author not found') {
+        return res.status(404).json({
+          message: 'Author not found',
+        });
+      }
+    }
+    throw error;
+  }
 }

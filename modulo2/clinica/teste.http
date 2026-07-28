@@ -1,0 +1,62 @@
+http://localhost:3000/v1/authors?nome=joao&idade=25
+
+### 
+
+POST http://localhost:3000/v1/authors HTTP/1.1
+Content-Type: application/json
+
+###
+
+POST http://localhost:3000/v1/authors HTTP/1.1
+Content-Type: application/json
+
+{
+    "nome": "João Moura",
+    "idade": 25
+}
+
+###
+
+POST http://localhost:3000/v1/authors HTTP/1.1
+Content-Type: application/json
+
+{
+    "nome": "Jefferson Moura",
+    "idade": 20
+}
+
+
+###
+
+GET http://localhost:3000/v1/authors
+
+
+###
+
+GET http://localhost:3000/v1/authors?nome=João
+
+###
+
+GET http://localhost:3000/v1/authors/abc
+
+
+###
+GET http://localhost:3000/v1/authors/1
+
+###
+
+PUT http://localhost:3000/v1/authors/1
+Content-Type: application/json
+
+{
+    "nome": "Lucas"
+}
+
+###
+
+PUT http://localhost:3000/v1/authors/2
+Content-Type: application/json
+
+{
+    "idade": 30
+}
