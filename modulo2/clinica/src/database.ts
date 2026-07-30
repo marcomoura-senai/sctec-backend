@@ -1,22 +1,28 @@
-import { Pool } from 'pg';
+import { DataSource } from 'typeorm';
 
-export const pool = new Pool({
-  user: process.env.DB_USER,
+import { Endereco, Paciente } from './model/patient.model';
+
+export const AppDataSource = new DataSource({
+  type: 'postgres',
   host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
+  port: Number(process.env.DB_PASSWORD ?? 5432),
+  username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  port: 5432,
-  max: 10,
-  min: 2,
-});
-
-pool.on('error', (err) => {
-  console.error('Unexpected error on idle client', err);
-  process.exit(-1);
+  database: process.env.DB_NAME,
+  poolSize: 10,
+  /**
+   * Só da pra utilizar em ambiente de desenvolvimento
+   */
+  synchronize: process.env.DB_SYNCHRONIZE?.toLowerCase() === 'true',
+  /**
+   * export type LogLevel = "query" | "schema" | "error" | "warn" | "info" | "log" | "migration";
+   */
+  logging: 'all',
+  entities: [Paciente, Endereco],
+  migrations: [],
+  invalidWhereValuesBehavior: { undefined: 'ignore', null: 'sql-null' },
 });
 
 export async function initDatabase() {
-  console.log('Iniciando banco de dados...');
-  await pool.query('SELECT 1');
-  console.log('Banco de dados iniciado com sucesso!');
+  await AppDataSource.initialize();
 }

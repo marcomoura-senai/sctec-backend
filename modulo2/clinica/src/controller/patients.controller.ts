@@ -1,22 +1,45 @@
+import { plainToClass } from 'class-transformer';
+import { validateOrReject } from 'class-validator';
 import type { Request, Response } from 'express';
 
-import * as authorService from '../service/author.service';
+import * as patientService from '../service/patient.service';
+import { PatientService } from '../service/patient.service';
+import { CreatePatientDto } from './dto/create-patient.dto';
 
-export function listAuthors(req: Request, res: Response) {
-  const { nome } = req.query;
+export class PatientController {
+  constructor(private readonly patientService: PatientService) {}
 
-  if (nome && typeof nome !== 'string') {
-    return res.status(400).json({
-      message: 'query param "nome" must be a string',
+  async create(req: Request, res: Response) {
+    const body: unknown = req.body;
+
+    const createPatientDto = plainToClass(CreatePatientDto, body);
+
+    await validateOrReject(createPatientDto);
+
+    const patient = await this.patientService.create(createPatientDto);
+
+    res.status(201).json({
+      message: 'Author created successfully',
+      data: patient,
     });
   }
 
-  const authors = authorService.listAuthors({ name: nome });
+  async list(req: Request, res: Response) {
+    const { nome } = req.query;
 
-  res.json(authors);
+    if (nome && typeof nome !== 'string') {
+      return res.status(400).json({
+        message: 'query param "nome" must be a string',
+      });
+    }
+
+    const patients = await this.patientService.list({ name: nome });
+
+    res.json(patients);
+  }
 }
 
-export function getAuthor(req: Request, res: Response) {
+export function getPatient(req: Request, res: Response) {
   const { id } = req.params;
 
   if (!id) {
@@ -31,53 +54,18 @@ export function getAuthor(req: Request, res: Response) {
     });
   }
 
-  const author = authorService.getAuthor(Number(id));
+  const patient = patientService.getPatient(Number(id));
 
-  if (!author) {
+  if (!patient) {
     return res.status(404).json({
       message: 'Author not found',
     });
   }
 
-  res.json(author);
+  res.json(patient);
 }
 
-export function createAuthor(req: Request, res: Response) {
-  const body: unknown = req.body;
-
-  if (!body) {
-    return res.status(400).json({
-      message: 'Body is required',
-    });
-  }
-
-  if (typeof body !== 'object') {
-    return res.status(400).json({
-      message: 'Body must be an object',
-    });
-  }
-
-  if (!('nome' in body) || typeof body.nome !== 'string') {
-    return res.status(400).json({
-      message: 'property "nome" is required and must be a string',
-    });
-  }
-
-  if (!('idade' in body) || typeof body.idade !== 'number') {
-    return res.status(400).json({
-      message: 'property "idade" is required and must be a number',
-    });
-  }
-
-  const author = authorService.createAuthor(body.nome, body.idade);
-
-  res.status(201).json({
-    message: 'Author created successfully',
-    data: author,
-  });
-}
-
-export function updateAuthor(req: Request, res: Response) {
+export function updatePatient(req: Request, res: Response) {
   const body: unknown = req.body;
   const { id } = req.params;
 
@@ -118,11 +106,11 @@ export function updateAuthor(req: Request, res: Response) {
   }
 
   try {
-    const author = authorService.updateAuthor(Number(id), body);
+    const patient = patientService.updatePatient(Number(id), body);
 
     res.status(201).json({
       message: 'Author updated successfully',
-      data: author,
+      data: patient,
     });
   } catch (error) {
     if (error instanceof Error) {

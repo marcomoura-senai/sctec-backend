@@ -17,23 +17,27 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/v1/authors HTTP/1.1
+POST http://localhost:3000/v1/patients HTTP/1.1
 Content-Type: application/json
 
 {
-    "nome": "Jefferson Moura",
-    "idade": 20
+    "nome": "Jefferson Santos",
+    "idade": 22,
+    "dataNascimento": "2022-01-01",
+    "enderecos": [{
+        "cep": "12345678"
+    }]
 }
 
 
 ###
 
-GET http://localhost:3000/v1/authors
+GET http://localhost:3000/v1/patients
 
 
 ###
 
-GET http://localhost:3000/v1/authors?nome=João
+GET http://localhost:3000/v1/patients?nome=Jessica
 
 ###
 
