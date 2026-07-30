@@ -1,4 +1,4 @@
-import { DeepPartial, Repository } from 'typeorm';
+import { DeepPartial, Like, Repository } from 'typeorm';
 
 import { Paciente } from '../model/patient.model';
 
@@ -21,6 +21,15 @@ export class PatientTypeOrmRepository implements PatientRepository {
 
   save(patient: Paciente): Promise<Paciente> {
     return this.repository.save(patient);
+  }
+
+  findPatientByNomeWithEndereco(nome: string): Promise<Paciente[]> {
+    return this.repository.find({
+      where: {
+        nome: Like(`%${nome}%`),
+      },
+      relations: { enderecos: true },
+    });
   }
 
   getDriver() {
