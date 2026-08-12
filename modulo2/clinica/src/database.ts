@@ -1,6 +1,8 @@
+import 'dotenv/config';
 import { DataSource } from 'typeorm';
 
-import { Endereco, Paciente } from './model/patient.model';
+import { Endereco } from './model/endereco.model';
+import { Paciente } from './model/patient.model';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -19,10 +21,14 @@ export const AppDataSource = new DataSource({
    */
   logging: 'all',
   entities: [Paciente, Endereco],
-  migrations: [],
+  migrations: [__dirname + '/migrations/**/*{.js,.ts}'],
   invalidWhereValuesBehavior: { undefined: 'ignore', null: 'sql-null' },
 });
 
 export async function initDatabase() {
   await AppDataSource.initialize();
+
+  await AppDataSource.runMigrations({
+    transaction: 'each',
+  });
 }

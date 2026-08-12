@@ -3,30 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
-export class Endereco {
-  @PrimaryGeneratedColumn()
-  id!: number;
-
-  @Index()
-  @Column({ type: 'integer' })
-  patientId!: number;
-
-  @Column({ type: 'char', length: 8 })
-  cep!: string;
-
-  @JoinColumn({ name: 'patientId' })
-  @ManyToOne(() => Paciente, (patient) => patient.enderecos)
-  patient!: Paciente;
-}
+import { Endereco } from './endereco.model';
 
 @Entity()
 export class Paciente {
