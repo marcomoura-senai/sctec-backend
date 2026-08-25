@@ -1,14 +1,14 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class Migrations1786746742111 implements MigrationInterface {
-  name = 'Migrations1786746742111';
+export class Migrations1787619080103 implements MigrationInterface {
+  name = 'Migrations1787619080103';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
       `CREATE TABLE "aluno" ("id" integer GENERATED ALWAYS AS IDENTITY NOT NULL, "nome" character varying(255) NOT NULL, "plano" character varying(255) NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, CONSTRAINT "pk_aluno" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "instrutor" ("id" integer GENERATED ALWAYS AS IDENTITY NOT NULL, "nome" character varying(255) NOT NULL, "especialidade" character varying(255) NOT NULL, "registro" character varying(255) NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, CONSTRAINT "pk_instrutor" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "instrutor" ("id" integer GENERATED ALWAYS AS IDENTITY NOT NULL, "nome" character varying(255) NOT NULL, "senha" character varying(255) NOT NULL, "especialidade" character varying(255) NOT NULL, "registro" character varying(255) NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, CONSTRAINT "pk_instrutor" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE UNIQUE INDEX "idx_instrutor_registro" ON "instrutor"  ("registro") `,

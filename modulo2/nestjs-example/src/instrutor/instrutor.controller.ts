@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { CreateInstrutorDto } from './dto/create-instrutor.dto';
 import { InstrutorService } from './instrutor.service';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('instrutores')
 export class InstrutorController {
@@ -21,5 +22,10 @@ export class InstrutorController {
   @Post()
   create(@Body() createInstrutorDto: CreateInstrutorDto) {
     return this.instrutorService.create(createInstrutorDto);
+  }
+
+  @Post('login')
+  login(@Body() createInstrutorDto: LoginDto) {
+    return this.instrutorService.login(createInstrutorDto);
   }
 }

@@ -16,6 +16,9 @@ export class Instrutor {
   @Column('varchar', { length: 255 })
   nome!: string;
 
+  @Column({ type: 'varchar', length: 255 })
+  senha!: string;
+
   @Column('varchar', { length: 255 })
   especialidade!: string;
 

@@ -7,4 +7,8 @@ export abstract class InstrutorRepository {
   abstract create(instrutor: CreateInstrutorDto): Promise<Instrutor>;
 
   abstract get(id: number): Promise<Instrutor | null>;
+
+  abstract getPasswordByRegistro(
+    registro: string,
+  ): Promise<(Instrutor & { senha: string }) | null>;
 }
