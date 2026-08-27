@@ -7,10 +7,14 @@ import {
 import { InstrutorRepository } from './instrutor.repository';
 import { CreateInstrutorDto } from './dto/create-instrutor.dto';
 import { LoginDto } from './dto/login.dto';
+import { JwtService } from '../auth/jwt.service';
 
 @Injectable()
 export class InstrutorService {
-  constructor(private readonly instrutorRepository: InstrutorRepository) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly instrutorRepository: InstrutorRepository,
+  ) {}
 
   async create(instrutor: CreateInstrutorDto) {
     const salt = await genSalt(10);
@@ -38,9 +42,9 @@ export class InstrutorService {
 
     const { senha: _, ...instrutorWithoutPassword } = instrutor;
 
-    // TODO: Gerar o token
+    const jwt = this.jwtService.sign(instrutorWithoutPassword);
 
-    return instrutorWithoutPassword;
+    return { jwt };
   }
 
   async get(id: number) {

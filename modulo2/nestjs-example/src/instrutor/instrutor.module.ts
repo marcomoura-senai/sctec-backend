@@ -8,9 +8,12 @@ import {
 import { InstrutorRepository } from './instrutor.repository';
 import { AppDataSource } from '../@common/database/typeorm/typeorm';
 import { Instrutor } from '../@common/entities/instrutor.entity';
+import { JwtModule } from '../auth/jwt.module';
+import { InstrutorLoginController } from './instrutor-login.controller';
 
 @Module({
-  controllers: [InstrutorController],
+  imports: [JwtModule],
+  controllers: [InstrutorController, InstrutorLoginController],
   providers: [
     InstrutorService,
     {
