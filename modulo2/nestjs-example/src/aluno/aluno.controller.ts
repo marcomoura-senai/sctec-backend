@@ -6,23 +6,36 @@ import {
   Param,
   Delete,
   Put,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
 import { AlunoService } from './aluno.service';
 import { CreateAlunoDto } from './dto/create-aluno.dto';
 import { UpdateAlunoDto } from './dto/update-aluno.dto';
+import { SearchAlunoDto } from './dto/search-aluno.dto';
+import { JwtGuard } from '../@common/guards/jwt.guard';
+import { GetUserJwt } from '../@common/decorators/get-user-jwt.decorator';
+import type { AuthUserDto } from '../@common/dto/auth-user.dto';
 
+@UseGuards(JwtGuard)
 @Controller('alunos')
 export class AlunoController {
   constructor(private readonly alunoService: AlunoService) {}
 
   @Post()
-  create(@Body() createAlunoDto: CreateAlunoDto) {
-    return this.alunoService.create(createAlunoDto);
+  create(
+    @Body() createAlunoDto: CreateAlunoDto,
+    @GetUserJwt() user: AuthUserDto,
+  ) {
+    return this.alunoService.create({
+      ...createAlunoDto,
+      createdByInstrutorId: user.data.id,
+    });
   }
 
   @Get()
-  findAll() {
-    return this.alunoService.findAll();
+  find(@Query() searchAlunoDto: SearchAlunoDto) {
+    return this.alunoService.find(searchAlunoDto);
   }
 
   @Get(':id')

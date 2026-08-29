@@ -31,9 +31,7 @@ export class InstrutorService {
     );
 
     if (!instrutor) {
-      throw new UnauthorizedException(
-        `Instrutor ${loginDto.registro} not found`,
-      );
+      throw new UnauthorizedException();
     }
 
     if (!(await compare(loginDto.senha, instrutor.senha))) {

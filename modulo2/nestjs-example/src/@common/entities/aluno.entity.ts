@@ -7,6 +7,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+export const UPDATE_RESULT_FIELDS: Array<keyof Aluno> = ['nome', 'plano'];
+
 @Entity()
 export class Aluno {
   @PrimaryGeneratedColumn('identity', { generatedIdentity: 'ALWAYS' })
@@ -17,6 +19,9 @@ export class Aluno {
 
   @Column('varchar', { length: 255 })
   plano!: string;
+
+  @Column('int')
+  createdByInstrutorId!: number;
 
   @CreateDateColumn()
   createdAt!: Date;

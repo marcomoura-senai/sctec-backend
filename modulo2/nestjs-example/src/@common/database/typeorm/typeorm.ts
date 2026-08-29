@@ -5,6 +5,7 @@ import { SnakeCaseNamingStrategy } from './snake-case-naming-pattern';
 import { Aluno } from '../../entities/aluno.entity';
 import { AulaAgendada } from '../../entities/aula-agendada.entity';
 import { Instrutor } from '../../entities/instrutor.entity';
+import { Role } from '../../../roles/roles.entity';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -22,7 +23,7 @@ export const AppDataSource = new DataSource({
    * export type LogLevel = "query" | "schema" | "error" | "warn" | "info" | "log" | "migration";
    */
   logging: (process.env.DB_LOG_LEVEL ?? 'error') as LoggerOptions,
-  entities: [Aluno, Instrutor, AulaAgendada],
+  entities: [Aluno, Instrutor, AulaAgendada, Role],
   namingStrategy: new SnakeCaseNamingStrategy(),
   migrations: [__dirname + '/migrations/**/*{.js,.ts}'],
   invalidWhereValuesBehavior: { undefined: 'ignore', null: 'sql-null' },

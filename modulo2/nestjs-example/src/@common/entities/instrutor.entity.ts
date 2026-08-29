@@ -4,9 +4,11 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Role } from '../../roles/roles.entity';
 
 @Entity()
 export class Instrutor {
@@ -16,7 +18,7 @@ export class Instrutor {
   @Column('varchar', { length: 255 })
   nome!: string;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'varchar', length: 255, select: false })
   senha!: string;
 
   @Column('varchar', { length: 255 })
@@ -25,6 +27,9 @@ export class Instrutor {
   @Index({ unique: true })
   @Column('varchar', { length: 255 })
   registro!: string;
+
+  @ManyToMany(() => Role, (role) => role.instrutores)
+  roles!: Role[];
 
   @CreateDateColumn()
   createdAt!: Date;

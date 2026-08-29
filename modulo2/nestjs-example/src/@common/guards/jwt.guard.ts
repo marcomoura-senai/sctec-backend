@@ -7,6 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { JwtService } from '../../auth/jwt.service';
 import { Request } from 'express';
+import { AuthUserDto } from '../dto/auth-user.dto';
 
 @Injectable()
 export class JwtGuard implements CanActivate {
@@ -28,7 +29,7 @@ export class JwtGuard implements CanActivate {
     return token;
   }
 
-  private setPayload(context: ExecutionContext, payload: object) {
+  private setPayload(context: ExecutionContext, payload: AuthUserDto) {
     context.switchToHttp().getRequest<Request>()['user'] = payload;
   }
 
@@ -36,6 +37,10 @@ export class JwtGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const payload = this.jwtService.verify(this.extractToken(context));
+    if (payload.iss !== 'sctec') {
+      // TODO: colocar issuer na variável de ambiente
+      throw new UnauthorizedException('Invalid token provided');
+    }
     this.setPayload(context, payload);
     return true;
   }

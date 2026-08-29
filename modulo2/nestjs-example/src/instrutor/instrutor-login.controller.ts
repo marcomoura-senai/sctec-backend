@@ -7,7 +7,7 @@ export class InstrutorLoginController {
   constructor(private readonly instrutorService: InstrutorService) {}
 
   @Post()
-  login(@Body() createInstrutorDto: LoginDto) {
-    return this.instrutorService.login(createInstrutorDto);
+  login(@Body() loginDto: LoginDto) {
+    return this.instrutorService.login(loginDto);
   }
 }

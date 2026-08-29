@@ -13,6 +13,7 @@ export class InstrutorTypeormRepository implements InstrutorRepository {
     @Inject(TYPEORM_INSTRUTOR_REPOSITORY)
     private readonly repository: Repository<Instrutor>,
   ) {}
+
   getPasswordByRegistro(
     registro: string,
   ): Promise<(Instrutor & { senha: string }) | null> {
@@ -29,9 +30,11 @@ export class InstrutorTypeormRepository implements InstrutorRepository {
       },
     });
   }
+
   get(id: number): Promise<Instrutor | null> {
     return this.repository.findOneBy({ id });
   }
+
   async create(instrutor: CreateInstrutorDto): Promise<Instrutor> {
     const instrutorEntity = this.repository.create(instrutor);
     const savedInstrutor = await this.repository.save(instrutorEntity);
