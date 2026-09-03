@@ -1,3 +1,3 @@
 [submodule "nestjs-academia"]
     path = ./modulo2/nestjs-academia
-    url = git@github-senai.com:marcomoura-senai/nestjs-academia.git
+    url = https://github.com/marcomoura-senai/nestjs-academia.git
