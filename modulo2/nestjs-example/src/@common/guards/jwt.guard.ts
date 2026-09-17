@@ -9,6 +9,12 @@ import { JwtService } from '../../auth/jwt.service';
 import { Request } from 'express';
 import { AuthUserDto } from '../dto/auth-user.dto';
 
+declare module 'express' {
+  export interface Request {
+    user: AuthUserDto;
+  }
+}
+
 @Injectable()
 export class JwtGuard implements CanActivate {
   constructor(private readonly jwtService: JwtService) {}
